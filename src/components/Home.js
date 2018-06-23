@@ -4,40 +4,45 @@ import Footer from './Footer';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Image from '../assests/bg.jpg';
-import green from '@material-ui/core/colors/green';
+import Image from '../assests/bg0.jpg';
 
 const styles = {
     paperContainer: {
         backgroundImage: `url(${Image})`,
         marginTop:64,
         backgroundSize: 'cover',
-        height: 500,
+        height: 425,
         paddingTop: 100
     },
     title:{
-        color:'#000'
+        color:'#000',
+        fontFamily: 'Playfair Display',
+        fontWeight: 'bold'
     },
     para: {
         paddingLeft: 150,
         paddingRight: 150,
         paddingTop: 50,
-        fontSize: 20
+        fontSize: 20,        
+        fontFamily: 'Source Sans Pro',
     },
     sub: {
-        fontSize: 30
+        fontSize: 30,
+        fontFamily: 'Playfair Display',
     },
     learnMore: {
-        backgroundColor: green[400],
+        backgroundColor: '#70B55C',
         color: '#fff',
         margin: "10px",
-        fontWeight: 600
+        fontWeight: 700,
+        fontFamily: 'Source Sans Pro',
     },
     signUp: {
-        backgroundColor: green[700],
+        backgroundColor: '#26A65C',
         color: '#fff',
         margin: "10px",
-        fontWeight: 600
+        fontWeight: 700,
+        fontFamily: 'Source Sans Pro',
     }
 };
 

@@ -4,20 +4,22 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 const styles ={
     text:{
-        fontSize: "20px",
-        fontWeight: 600,
+        fontSize: 20,
+        fontWeight: 700,
         color: '#000',
-        textTransform: 'Uppercase'
+        textTransform: 'Uppercase',
+        fontFamily: 'Source Sans Pro'
     }
 };
 
 class Footer extends Component {
     render() {
+        const { text } = styles;
         return (
-                <BottomNavigation showLabels>
-                    <BottomNavigationAction label="Privacy Policy" style={styles.text} />
-                    <BottomNavigationAction label="Developers/Github" style={styles.text} />
-                    <BottomNavigationAction label="Contact Us" style={styles.text} />
+                <BottomNavigation showLabels style={{height: 75}}>
+                    <BottomNavigationAction label="Privacy Policy" style={text} />
+                    <BottomNavigationAction label="Developers/Github" style={text} />
+                    <BottomNavigationAction label="Contact Us" style={text} />
                 </BottomNavigation>
         )
     }
