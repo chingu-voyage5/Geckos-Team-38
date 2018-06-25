@@ -52,7 +52,7 @@ class Header extends Component {
                     <Typography variant="title" color="inherit" style={flex} align="left">
                         POSITIVO
                     </Typography>
-                    <Button variant="text" style={button}>Home</Button>
+                    <Button variant="text" style={button} component={Link} to='/'>Home</Button>
                     <Button variant="text" style={button}>About</Button>
                     <Button variant="flat" style={signIn}>Sign in</Button>
                     <Button variant="flat" style={signUp} component={Link} to='/signup'>Sign up</Button>
