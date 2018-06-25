@@ -12,7 +12,8 @@ const styles = {
         marginTop:64,
         backgroundSize: 'cover',
         height: 425,
-        paddingTop: 100
+        paddingTop: 100,
+        textAlign: 'center'
     },
     title:{
         color:'#000',
