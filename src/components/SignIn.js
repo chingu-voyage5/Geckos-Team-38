@@ -46,7 +46,7 @@ const styles = {
   }
 };
 
-class SignUp extends Component {
+class SignIn extends Component {
   render() {
     const { paper, title, bootstrapFormLabel, bootstrapInput, button } = styles;
 
@@ -55,7 +55,7 @@ class SignUp extends Component {
         <Header />
         <Paper style={paper}>
           <Typography variant="display2" style={title}>
-            Sign Up
+            Sign In
           </Typography>
           <br />
           <br />
@@ -92,11 +92,11 @@ class SignUp extends Component {
             <br />
             <br />
             <Button variant="flat" style={button}>
-              Sign Up
+              Sign In
             </Button>
             <Typography variant="title">OR</Typography>
             <Button variant="flat" style={button}>
-              Sign Up With Google
+              Sign In With Google
             </Button>
           </form>
         </Paper>
@@ -106,4 +106,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default SignIn;
