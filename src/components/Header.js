@@ -49,7 +49,7 @@ class Header extends Component {
           <Button variant="text" style={button} component={Link} to="/">
             Home
           </Button>
-          <Button variant="text" style={button}>
+          <Button variant="text" style={button} component={Link} to="/about">
             About
           </Button>
           <Button variant="flat" style={signIn} component={Link} to="/signin">

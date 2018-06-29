@@ -60,7 +60,7 @@ class Home extends Component {
           </Typography>
           <Typography variant="subheading" style={sub}>
             {" "}
-            Your Daily Greatefulness Reminder{" "}
+            Let's Be Greatful{" "}
           </Typography>
           <Typography paragraph style={para}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -68,7 +68,7 @@ class Home extends Component {
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
             aliquip ex ea commodo consequat.
           </Typography>
-          <Button variant="flat" style={learnMore}>
+          <Button variant="flat" style={learnMore} component={Link} to="/about">
             Learn More
           </Button>
           <Button variant="flat" style={signUp} component={Link} to="/signup">
