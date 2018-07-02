@@ -42,7 +42,7 @@ const styles = {
 
 class Dashboard extends Component {
   state = {
-    open: true
+    open: false
   };
 
   /*constructor(props) {
