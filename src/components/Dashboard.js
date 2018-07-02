@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import Header from "./Header";
 import Footer from "./Footer";
+import UserInputModal from "./UserInputModal";
 
 const styles = {
   paper: {
@@ -40,20 +41,32 @@ const styles = {
 };
 
 class Dashboard extends Component {
-  // constructor(props) {
-  //     super(props);
-  //     this.state = {
-  //         user:{
-  //             id: '12135',
-  //             name: 'User',
-  //             posts:[
-  //                 {
+  state = {
+    open: true
+  };
 
-  //                 }
-  //             ]
-  //         }
-  //     };
-  //   }
+  /*constructor(props) {
+      super(props);
+      this.state = {
+          user:{
+              id: '12135',
+              name: 'User',
+              posts:[
+                  {
+
+                  }
+              ]
+          }
+      };
+    } */
+
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   render() {
     const { paper, title, date, button, card } = styles;
@@ -69,7 +82,7 @@ class Dashboard extends Component {
               </Typography>
             </Grid>
             <Grid item sm={6} style={{ textAlign: "right" }}>
-              <Button variant="flat" style={button}>
+              <Button variant="flat" style={button} onClick={this.handleOpen}>
                 Add New Entry
               </Button>
             </Grid>
@@ -107,6 +120,7 @@ class Dashboard extends Component {
               </Card>
             </Grid>
           </Grid>
+          <UserInputModal open={this.state.open} close={this.handleClose} />
         </Paper>
         <Footer />
       </div>
