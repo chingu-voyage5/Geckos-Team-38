@@ -14,7 +14,8 @@ const styles = {
   paper: {
     backgroundColor: "#f5f5f5",
     marginTop: 96,
-    padding: 75
+    padding: 75,
+    minHeight: 350
   },
   title: {
     color: "#000",
@@ -32,6 +33,9 @@ const styles = {
   },
   card: {
     minWidth: 200
+  },
+  date: {
+    marginTop: 8
   }
 };
 
@@ -52,14 +56,7 @@ class Dashboard extends Component {
   //   }
 
   render() {
-    const {
-      paper,
-      title,
-      bootstrapFormLabel,
-      bootstrapInput,
-      button,
-      card
-    } = styles;
+    const { paper, title, date, button, card } = styles;
 
     return (
       <div>
@@ -77,9 +74,10 @@ class Dashboard extends Component {
               </Button>
             </Grid>
           </Grid>
-          <Grid container spacing-xs-8="true">
+          <br />
+          <Grid container spacing="40">
             <Grid item sm={6}>
-              <Card raised style={card}>
+              <Card style={card}>
                 <CardContent>
                   <Typography>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
@@ -87,17 +85,23 @@ class Dashboard extends Component {
                     Phasellus nulla tortor, tincidunt at nunc vel, euismod
                     vulputate libero.
                   </Typography>
+                  <Typography paragraph style={date}>
+                    01, January, 2018
+                  </Typography>
                 </CardContent>
               </Card>
             </Grid>
             <Grid item sm={6}>
-              <Card raised>
+              <Card>
                 <CardContent>
                   <Typography>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
                     pulvinar elementum lacinia. Aenean quis hendrerit mi.
                     Phasellus nulla tortor, tincidunt at nunc vel, euismod
                     vulputate libero.
+                  </Typography>
+                  <Typography paragraph style={date}>
+                    01, January, 2018
                   </Typography>
                 </CardContent>
               </Card>
