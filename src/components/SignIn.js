@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import { TextField, Typography, Paper, Button } from "@material-ui/core";
+import firebase from "firebase";
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -47,62 +49,126 @@ const styles = {
 };
 
 class SignIn extends Component {
+  state = {
+    email: "",
+    password: "",
+    error: "",
+    redirect: false,
+    id: ""
+  };
+
+  loginButton() {
+    const { email, password } = this.state;
+    //this.setState({ error : ''});
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(this.onLoginSuccess.bind(this))
+      .catch(() => {
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then(this.onLoginSuccess.bind(this))
+          .catch(this.onLoginFail.bind(this));
+      });
+  }
+  onLoginSuccess() {
+    var user = firebase.auth().currentUser;
+    var id = user.uid;
+    this.setState({
+      email: "",
+      password: "",
+      error: "",
+      redirect: true,
+      id: id
+    });
+    console.log(this.state.redirect, this.state.id);
+  }
+
+  onLoginFail() {
+    this.setState({
+      error: "Authentication Failed",
+      redirect: false
+    });
+    console.log(this.state.error, this.state.redirect);
+  }
+
   render() {
     const { paper, title, bootstrapFormLabel, bootstrapInput, button } = styles;
 
-    return (
-      <div>
-        <Header />
-        <Paper style={paper}>
-          <Typography variant="display2" style={title}>
-            Sign In
-          </Typography>
-          <br />
-          <br />
-          <form autoComplete="true">
-            <TextField
-              label="Email"
-              placeholder="Enter your email"
-              type="email"
-              autoFocus
-              InputProps={{
-                disableUnderline: true,
-                style: bootstrapInput
-              }}
-              InputLabelProps={{
-                shrink: true,
-                style: bootstrapFormLabel
-              }}
-            />
-            <br />
-            <br />
-            <TextField
-              label="Password"
-              placeholder="********"
-              type="password"
-              InputProps={{
-                disableUnderline: true,
-                style: bootstrapInput
-              }}
-              InputLabelProps={{
-                shrink: true,
-                style: bootstrapFormLabel
-              }}
-            />
-            <br />
-            <br />
-            <Button variant="flat" style={button}>
+    if (this.state.redirect) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/${this.state.id}/dashboard`,
+            state: { redirect: this.state.redirect }
+          }}
+        />
+      );
+    } else
+      return (
+        <div>
+          <Header />
+          <Paper style={paper}>
+            <Typography variant="display2" style={title}>
               Sign In
-            </Button>
-            <Typography variant="title">OR</Typography>
-            <Button variant="flat" style={button}>
-              Sign In With Google
-            </Button>
-          </form>
-        </Paper>
-        <Footer />
-      </div>
-    );
+            </Typography>
+            <br />
+            <br />
+            <form autoComplete="true">
+              <TextField
+                label="Email"
+                placeholder="Enter your email"
+                type="email"
+                onChange={e => {
+                  this.setState({ email: e.target.value });
+                }}
+                autoFocus
+                InputProps={{
+                  disableUnderline: true,
+                  style: bootstrapInput
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: bootstrapFormLabel
+                }}
+              />
+              <br />
+              <br />
+              <TextField
+                label="Password"
+                placeholder="********"
+                type="password"
+                onChange={e => {
+                  this.setState({ password: e.target.value });
+                }}
+                InputProps={{
+                  disableUnderline: true,
+                  style: bootstrapInput
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: bootstrapFormLabel
+                }}
+              />
+              <br />
+              <br />
+              <Button
+                variant="flat"
+                style={button}
+                onClick={this.loginButton.bind(this)}
+              >
+                Sign In
+              </Button>
+              <Typography variant="title">OR</Typography>
+              <Button variant="flat" style={button}>
+                Sign In With Google
+              </Button>
+            </form>
+          </Paper>
+          <Footer />
+        </div>
+      );
   }
 }
 

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { TextField, Typography, Paper, Button } from "@material-ui/core";
+import firebase from "firebase";
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -47,8 +48,34 @@ const styles = {
 };
 
 class SignUp extends Component {
+  state = {
+    email: "",
+    password: "",
+    error: ""
+  };
+
+  handleSignUp() {
+    const { email, password, error } = this.state;
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(function() {
+        console.log("loggedin");
+        firebase
+          .auth()
+          .currentUser.sendEmailVerification()
+          .then(console.log("email sent").catch(console.log(error)));
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        console.log(error);
+        // ...
+      });
+  }
+
   render() {
     const { paper, title, bootstrapFormLabel, bootstrapInput, button } = styles;
+    console.log(this.props);
 
     return (
       <div>
@@ -65,6 +92,9 @@ class SignUp extends Component {
               placeholder="Enter your email"
               type="email"
               autoFocus
+              onChange={e => {
+                this.setState({ email: e.target.value });
+              }}
               InputProps={{
                 disableUnderline: true,
                 style: bootstrapInput
@@ -80,6 +110,9 @@ class SignUp extends Component {
               label="Password"
               placeholder="********"
               type="password"
+              onChange={e => {
+                this.setState({ password: e.target.value });
+              }}
               InputProps={{
                 disableUnderline: true,
                 style: bootstrapInput
@@ -91,7 +124,11 @@ class SignUp extends Component {
             />
             <br />
             <br />
-            <Button variant="flat" style={button}>
+            <Button
+              variant="flat"
+              style={button}
+              onClick={this.handleSignUp.bind(this)}
+            >
               Sign Up
             </Button>
             <Typography variant="title">OR</Typography>

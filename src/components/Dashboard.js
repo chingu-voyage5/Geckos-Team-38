@@ -69,11 +69,11 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { paper, title, date, button, card } = styles;
-
+    const { paper, date, button, card } = styles;
+    console.log(this.props.location.state);
     return (
       <div>
-        <Header />
+        <Header redirect={this.props.location.state.redirect} />
         <Paper style={paper}>
           <Grid container>
             <Grid item sm={6}>
