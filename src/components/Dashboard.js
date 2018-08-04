@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import * as actions from "../actions";
+import { connect } from "react-redux";
+import _ from "lodash";
 import {
   Typography,
   Paper,
@@ -10,6 +13,7 @@ import {
 import Header from "./Header";
 import Footer from "./Footer";
 import UserInputModal from "./UserInputModal";
+import Posts from "./Posts";
 
 const styles = {
   paper: {
@@ -45,21 +49,6 @@ class Dashboard extends Component {
     open: false
   };
 
-  /*constructor(props) {
-      super(props);
-      this.state = {
-          user:{
-              id: '12135',
-              name: 'User',
-              posts:[
-                  {
-
-                  }
-              ]
-          }
-      };
-    } */
-
   handleOpen = () => {
     this.setState({ open: true });
   };
@@ -67,6 +56,20 @@ class Dashboard extends Component {
   handleClose = () => {
     this.setState({ open: false });
   };
+
+  renderPosts() {
+    const { data } = this.props;
+    const posts = _.map(data, (value, key) => {
+      return <Posts key={key} todoId={key} todo={value} />;
+    });
+    if (!_.isEmpty(posts)) {
+      return posts;
+    }
+  }
+
+  componentWillMount() {
+    this.props.fetchPosts();
+  }
 
   render() {
     const { paper, title, date, button, card } = styles;
@@ -87,39 +90,8 @@ class Dashboard extends Component {
               </Button>
             </Grid>
           </Grid>
+          <Grid container>{this.renderPosts()}</Grid>
           <br />
-          <Grid container spacing="40">
-            <Grid item sm={6}>
-              <Card style={card}>
-                <CardContent>
-                  <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                    pulvinar elementum lacinia. Aenean quis hendrerit mi.
-                    Phasellus nulla tortor, tincidunt at nunc vel, euismod
-                    vulputate libero.
-                  </Typography>
-                  <Typography paragraph style={date}>
-                    01, January, 2018
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item sm={6}>
-              <Card>
-                <CardContent>
-                  <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                    pulvinar elementum lacinia. Aenean quis hendrerit mi.
-                    Phasellus nulla tortor, tincidunt at nunc vel, euismod
-                    vulputate libero.
-                  </Typography>
-                  <Typography paragraph style={date}>
-                    01, January, 2018
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
           <UserInputModal open={this.state.open} close={this.handleClose} />
         </Paper>
         <Footer />
@@ -128,4 +100,13 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = ({ data }) => {
+  return {
+    data
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  actions
+)(Dashboard);
