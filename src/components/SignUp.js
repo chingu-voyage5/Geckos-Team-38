@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { signUp } from "../actions";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { TextField, Typography, Paper, Button } from "@material-ui/core";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -47,6 +50,20 @@ const styles = {
 };
 
 class SignUp extends Component {
+  state = {
+    email: "",
+    password: ""
+  };
+
+  static contextTypes = {
+    router: PropTypes.object
+  };
+
+  handleSignUp() {
+    this.props.signUp(this.state.email, this.state.password);
+    this.context.router.history.push("/app");
+  }
+
   render() {
     const { paper, title, bootstrapFormLabel, bootstrapInput, button } = styles;
 
@@ -65,6 +82,9 @@ class SignUp extends Component {
               placeholder="Enter your email"
               type="email"
               autoFocus
+              onChange={e => {
+                this.setState({ email: e.target.value });
+              }}
               InputProps={{
                 disableUnderline: true,
                 style: bootstrapInput
@@ -80,6 +100,9 @@ class SignUp extends Component {
               label="Password"
               placeholder="********"
               type="password"
+              onChange={e => {
+                this.setState({ password: e.target.value });
+              }}
               InputProps={{
                 disableUnderline: true,
                 style: bootstrapInput
@@ -91,7 +114,11 @@ class SignUp extends Component {
             />
             <br />
             <br />
-            <Button variant="flat" style={button}>
+            <Button
+              variant="flat"
+              style={button}
+              onClick={this.handleSignUp.bind(this)}
+            >
               Sign Up
             </Button>
             <Typography variant="title">OR</Typography>
@@ -106,4 +133,11 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+// const mapStateToProps = ({ auth }) => {
+//   return { auth };
+// };
+
+export default connect(
+  null,
+  { signUp }
+)(SignUp);

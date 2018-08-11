@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Modal, Typography, Button, TextField } from "@material-ui/core";
-
+import * as actions from "../actions";
 const styles = {
   ModalStyle: {
     top: "50%",
@@ -35,6 +36,43 @@ const styles = {
 };
 
 class UserInputModal extends Component {
+  state = {
+    addFormValue: "",
+    date: ""
+  };
+  handlePost = event => {
+    const { addFormValue, date } = this.state;
+    const { addPost, auth } = this.props;
+    event.preventDefault();
+    addPost(
+      {
+        content: addFormValue,
+        date: date
+      },
+      auth.uid
+    );
+    this.setState({ addFormValue: "" });
+  };
+  componentWillMount() {
+    var d = new Date();
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+    this.setState({
+      date: d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear()
+    });
+  }
   render() {
     return (
       <Modal
@@ -54,9 +92,16 @@ class UserInputModal extends Component {
               disableUnderline: true,
               style: styles.bootstrapInput
             }}
+            onChange={e => {
+              this.setState({ addFormValue: e.target.value });
+            }}
           />
           <br />
-          <Button variant="flat" style={styles.button}>
+          <Button
+            variant="flat"
+            style={styles.button}
+            onClick={this.handlePost}
+          >
             Post
           </Button>
         </div>
@@ -65,4 +110,14 @@ class UserInputModal extends Component {
   }
 }
 
-export default UserInputModal;
+const mapStateToProps = ({ data, auth }) => {
+  return {
+    data,
+    auth
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  actions
+)(UserInputModal);

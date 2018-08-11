@@ -1,15 +1,12 @@
 import React, { Component } from "react";
-import {
-  Typography,
-  Paper,
-  Button,
-  Card,
-  Grid,
-  CardContent
-} from "@material-ui/core";
+import * as actions from "../actions";
+import { connect } from "react-redux";
+import _ from "lodash";
+import { Typography, Paper, Button, Grid } from "@material-ui/core";
 import Header from "./Header";
 import Footer from "./Footer";
 import UserInputModal from "./UserInputModal";
+import Posts from "./Posts";
 
 const styles = {
   paper: {
@@ -18,12 +15,6 @@ const styles = {
     padding: 75,
     minHeight: 350
   },
-  title: {
-    color: "#000",
-    fontFamily: "Playfair Display",
-    fontWeight: "bold",
-    textTransform: "uppercase"
-  },
   button: {
     backgroundColor: "#26A65C",
     color: "#fff",
@@ -31,12 +22,6 @@ const styles = {
     fontWeight: 700,
     fontFamily: "Source Sans Pro",
     fontSize: 14
-  },
-  card: {
-    minWidth: 200
-  },
-  date: {
-    marginTop: 8
   }
 };
 
@@ -44,21 +29,6 @@ class Dashboard extends Component {
   state = {
     open: false
   };
-
-  /*constructor(props) {
-      super(props);
-      this.state = {
-          user:{
-              id: '12135',
-              name: 'User',
-              posts:[
-                  {
-
-                  }
-              ]
-          }
-      };
-    } */
 
   handleOpen = () => {
     this.setState({ open: true });
@@ -68,8 +38,22 @@ class Dashboard extends Component {
     this.setState({ open: false });
   };
 
+  renderPosts() {
+    const { data } = this.props;
+    const posts = _.map(data, (value, key) => {
+      return <Posts key={key} todoId={key} todo={value} />;
+    });
+    if (!_.isEmpty(posts)) {
+      return posts;
+    }
+  }
+
+  componentWillMount() {
+    this.props.fetchPosts(this.props.auth.uid);
+  }
+
   render() {
-    const { paper, title, date, button, card } = styles;
+    const { paper, button } = styles;
 
     return (
       <div>
@@ -87,39 +71,8 @@ class Dashboard extends Component {
               </Button>
             </Grid>
           </Grid>
+          <Grid container>{this.renderPosts()}</Grid>
           <br />
-          <Grid container spacing="40">
-            <Grid item sm={6}>
-              <Card style={card}>
-                <CardContent>
-                  <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                    pulvinar elementum lacinia. Aenean quis hendrerit mi.
-                    Phasellus nulla tortor, tincidunt at nunc vel, euismod
-                    vulputate libero.
-                  </Typography>
-                  <Typography paragraph style={date}>
-                    01, January, 2018
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item sm={6}>
-              <Card>
-                <CardContent>
-                  <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                    pulvinar elementum lacinia. Aenean quis hendrerit mi.
-                    Phasellus nulla tortor, tincidunt at nunc vel, euismod
-                    vulputate libero.
-                  </Typography>
-                  <Typography paragraph style={date}>
-                    01, January, 2018
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
           <UserInputModal open={this.state.open} close={this.handleClose} />
         </Paper>
         <Footer />
@@ -128,4 +81,14 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = ({ data, auth }) => {
+  return {
+    data,
+    auth
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  actions
+)(Dashboard);
