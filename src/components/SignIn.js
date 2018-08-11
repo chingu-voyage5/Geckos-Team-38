@@ -65,7 +65,7 @@ class SignIn extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    console.log(nextProps);
+    //console.log(nextProps);
     if (nextProps.auth) {
       this.context.router.history.push("/app");
     }

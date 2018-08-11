@@ -45,9 +45,9 @@ class Header extends Component {
     router: PropTypes.object
   };
 
-  componentWillMount() {
-    console.log(this.props);
-  }
+  // componentWillMount() {
+  //   console.log(this.props);
+  // }
 
   handleSignOut() {
     const { signIn, signUp } = styles;

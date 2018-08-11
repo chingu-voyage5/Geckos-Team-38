@@ -49,7 +49,7 @@ class Dashboard extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchPosts();
+    this.props.fetchPosts(this.props.auth.uid);
   }
 
   render() {
@@ -81,9 +81,10 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = ({ data }) => {
+const mapStateToProps = ({ data, auth }) => {
   return {
-    data
+    data,
+    auth
   };
 };
 

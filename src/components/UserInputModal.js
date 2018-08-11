@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Modal, Typography, Button, TextField } from "@material-ui/core";
-import { addPost } from "../actions";
+import * as actions from "../actions";
 const styles = {
   ModalStyle: {
     top: "50%",
@@ -42,17 +42,20 @@ class UserInputModal extends Component {
   };
   handlePost = event => {
     const { addFormValue, date } = this.state;
-    const { addPost } = this.props;
+    const { addPost, auth } = this.props;
     event.preventDefault();
-    addPost({
-      content: addFormValue,
-      date: date
-    });
+    addPost(
+      {
+        content: addFormValue,
+        date: date
+      },
+      auth.uid
+    );
     this.setState({ addFormValue: "" });
   };
   componentWillMount() {
     var d = new Date();
-    var months = [
+    const months = [
       "January",
       "February",
       "March",
@@ -107,7 +110,14 @@ class UserInputModal extends Component {
   }
 }
 
+const mapStateToProps = ({ data, auth }) => {
+  return {
+    data,
+    auth
+  };
+};
+
 export default connect(
-  null,
-  { addPost }
+  mapStateToProps,
+  actions
 )(UserInputModal);
