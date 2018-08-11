@@ -5,6 +5,9 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import grey from "@material-ui/core/colors/grey";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { fetchUser, signOut } from "../actions";
+import { connect } from "react-redux";
 const primary = grey[50];
 const styles = {
   flex: {
@@ -38,8 +41,37 @@ const styles = {
 };
 
 class Header extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  };
+
+  componentWillMount() {
+    console.log(this.props);
+  }
+
+  handleSignOut() {
+    const { signIn, signUp } = styles;
+    if (this.props.auth) {
+      return (
+        <Button variant="flat" style={signIn} onClick={this.props.signOut}>
+          Sign Out
+        </Button>
+      );
+    } else {
+      return (
+        <div>
+          <Button variant="flat" style={signIn} component={Link} to="/signin">
+            Sign in
+          </Button>
+          <Button variant="flat" style={signUp} component={Link} to="/signup">
+            Sign up
+          </Button>
+        </div>
+      );
+    }
+  }
   render() {
-    const { flex, button, signIn, signUp } = styles;
+    const { flex, button } = styles;
     return (
       <AppBar color={primary} style={{ height: 96 }}>
         <Toolbar style={{ paddingTop: 15 }}>
@@ -52,16 +84,18 @@ class Header extends Component {
           <Button variant="text" style={button} component={Link} to="/about">
             About
           </Button>
-          <Button variant="flat" style={signIn} component={Link} to="/signin">
-            Sign in
-          </Button>
-          <Button variant="flat" style={signUp} component={Link} to="/signup">
-            Sign up
-          </Button>
+          {this.handleSignOut()}
         </Toolbar>
       </AppBar>
     );
   }
 }
 
-export default Header;
+const mapStateToProps = ({ auth }) => {
+  return { auth };
+};
+
+export default connect(
+  mapStateToProps,
+  { fetchUser, signOut }
+)(Header);

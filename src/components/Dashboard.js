@@ -2,14 +2,7 @@ import React, { Component } from "react";
 import * as actions from "../actions";
 import { connect } from "react-redux";
 import _ from "lodash";
-import {
-  Typography,
-  Paper,
-  Button,
-  Card,
-  Grid,
-  CardContent
-} from "@material-ui/core";
+import { Typography, Paper, Button, Grid } from "@material-ui/core";
 import Header from "./Header";
 import Footer from "./Footer";
 import UserInputModal from "./UserInputModal";
@@ -22,12 +15,6 @@ const styles = {
     padding: 75,
     minHeight: 350
   },
-  title: {
-    color: "#000",
-    fontFamily: "Playfair Display",
-    fontWeight: "bold",
-    textTransform: "uppercase"
-  },
   button: {
     backgroundColor: "#26A65C",
     color: "#fff",
@@ -35,12 +22,6 @@ const styles = {
     fontWeight: 700,
     fontFamily: "Source Sans Pro",
     fontSize: 14
-  },
-  card: {
-    minWidth: 200
-  },
-  date: {
-    marginTop: 8
   }
 };
 
@@ -72,7 +53,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { paper, title, date, button, card } = styles;
+    const { paper, button } = styles;
 
     return (
       <div>

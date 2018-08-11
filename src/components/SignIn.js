@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { signIn } from "../actions";
 import { TextField, Typography, Paper, Button } from "@material-ui/core";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -47,9 +50,29 @@ const styles = {
 };
 
 class SignIn extends Component {
+  state = {
+    email: "",
+    password: ""
+  };
+
+  static contextTypes = {
+    router: PropTypes.object
+  };
+
+  handleSignIn() {
+    this.props.signIn(this.state.email, this.state.password);
+    this.context.router.history.push("/app");
+  }
+
+  componentWillUpdate(nextProps) {
+    console.log(nextProps);
+    if (nextProps.auth) {
+      this.context.router.history.push("/app");
+    }
+  }
+
   render() {
     const { paper, title, bootstrapFormLabel, bootstrapInput, button } = styles;
-
     return (
       <div>
         <Header />
@@ -65,6 +88,9 @@ class SignIn extends Component {
               placeholder="Enter your email"
               type="email"
               autoFocus
+              onChange={e => {
+                this.setState({ email: e.target.value });
+              }}
               InputProps={{
                 disableUnderline: true,
                 style: bootstrapInput
@@ -80,6 +106,9 @@ class SignIn extends Component {
               label="Password"
               placeholder="********"
               type="password"
+              onChange={e => {
+                this.setState({ password: e.target.value });
+              }}
               InputProps={{
                 disableUnderline: true,
                 style: bootstrapInput
@@ -91,7 +120,11 @@ class SignIn extends Component {
             />
             <br />
             <br />
-            <Button variant="flat" style={button}>
+            <Button
+              variant="flat"
+              style={button}
+              onClick={this.handleSignIn.bind(this)}
+            >
               Sign In
             </Button>
             <Typography variant="title">OR</Typography>
@@ -106,4 +139,11 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
+const mapStateToProps = ({ auth }) => {
+  return { auth };
+};
+
+export default connect(
+  mapStateToProps,
+  { signIn }
+)(SignIn);
